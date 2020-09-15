@@ -9,6 +9,12 @@
 - php artisan key:generate
 - composer install
 
+## Database
+- Download and restore backup https://drive.google.com/file/d/1IybDy6bDZYi59ugWxkfNlPsx5SIJbz_J/view?usp=sharing
+- Edit data of table webservice_credentials, the following columns, with AdamsPay Credentials:
+    * client_secret
+    * api_key
+
 ## License
 
 The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
