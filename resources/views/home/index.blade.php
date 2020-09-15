@@ -34,6 +34,9 @@
                             <div class="col-12">
                                 <label> Pagado: <span class="text-muted">{{ number_format($donation->data->debt->amount->paid, 2, ',', '.') }} {{ $donation->data->debt->amount->currency }}</span></label>
                             </div>
+                            <div class="col-12">
+                                <img src="{{ $donation->data->debt->payUrl }}/qr" class="img-fluid" width="40%" alt="{{ $donation->data->debt->docId }}">
+                            </div>
                         </div>
                         <div class="col-6">
                             <div class="col-12">

@@ -9,14 +9,20 @@ use App\Traits\ApiResponser;
 class DonationsService{
     use ApiResponser;
 
-    function __construct()
-    {
-    }
-
+    /**
+     * @param mixed $request
+     * 
+     * @return App\Traits\ApiResponser
+     */
     public function execute($request){
         return $this->registerDonation($request)->getData();
     }
 
+    /**
+     * @param mixed $request
+     * 
+     * @return App\Traits\ApiResponser
+     */
     public function registerDonation($request){
         try {
             $adamspay = new AdamsPayService;

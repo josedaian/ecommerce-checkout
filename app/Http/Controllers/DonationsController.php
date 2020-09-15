@@ -6,12 +6,9 @@ use App\Http\Requests\StoreDonationRequest;
 use App\Http\Services\DonationsService;
 
 class DonationsController extends Controller {
-    public function __construct(){
-    }
 
     /**
-     * Store
-     *
+     * @param StoreDonationRequest $request
      * @method post
      * @return \Illuminate\Http\Response
      */

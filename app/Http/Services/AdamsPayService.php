@@ -23,12 +23,18 @@ class AdamsPayService{
     function __construct()
     {
         $webservice = Webservice::whereProviderId(Provider::ADAMSPAY)->first();
+        // Load relations
         $webservice->load(['webserviceCredential']);
 
         $this->url = $webservice->url;
         $this->apiKey = $webservice->webserviceCredential->api_key;
     }
 
+    /**
+     * @param array $data
+     * 
+     * @return App\Traits\ApiResponser
+     */
     public function createDebt(array $data){
         try {
             $requestParams = $this->getEndpointWithHeader('debts');
@@ -59,6 +65,11 @@ class AdamsPayService{
         }
     }
 
+    /**
+     * @param String $docId
+     * 
+     * @return stdClass
+     */
     public function getDebt(String $docId){
         $requestParams = $this->getEndpointWithHeader('debts/'.$docId);
 
@@ -66,6 +77,12 @@ class AdamsPayService{
         return $response;
     }
 
+    /**
+     * @param null $start
+     * @param null $duration
+     * 
+     * @return array
+     */
     public function calculateDatePeriod($start = null, $duration = null){
         $duration = empty($duration) ? $this::DEFAULT_DURATION : $duration;
         $start = empty($start) ? Carbon::now() : $start;
@@ -78,6 +95,11 @@ class AdamsPayService{
         ];
     }
 
+    /**
+     * @param string $endpoint
+     * 
+     * @return array
+     */
     public function getEndpointWithHeader(string $endpoint){
         return [
             'endpoint' => $this->url.$endpoint,

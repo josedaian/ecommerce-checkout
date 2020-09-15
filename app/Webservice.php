@@ -36,6 +36,11 @@ class Webservice extends Model
         return $this->hasOne(WebserviceCredential::class, 'webservice_id', 'id');
     }
 
+    /**
+     * @param mixed $query
+     * @param mixed $providerId
+     * 
+     */
     public function scopeWhereProviderId($query, $providerId){
         $query->where('provider_id', $providerId);
     }
