@@ -5,6 +5,7 @@ namespace App\Http\Services;
 use Exception;
 use Illuminate\Http\Response;
 use App\Traits\ApiResponser;
+use App\Transaction;
 
 class NotificationsService{
     use ApiResponser;
@@ -27,19 +28,22 @@ class NotificationsService{
         try {
             $header = $request->header();
             $postData = $request->all(); 
-            $adamspay = new AdamsPayService;
-            $adamspay->validateHeaderNotification($postData, $header);
-            return 200;
             
-            $data = [];
-            $data['amount'] = [
-                'value' => $request->amount
-            ];
-            $data['label'] = $request->concept;
-            $data['docId'] = $request->document;
+            $adamspay = new AdamsPayService;
 
-            $response = $adamspay->createDebt($data)->getDate();
-            return $response;
+            if($adamspay->validateHeaderNotification($postData, $header)){
+                if(Transaction::referenceExists($postData['debt']['docId'])){
+                    $transaction = Transaction::where('reference', $postData['debt']['docId'])->first();
+                    $transaction->status = $postData['debt']['payStatus']['status'];
+                    $transaction->save();
+                }else{
+                    return $this->errorResponse('La transacción no existe', Response::HTTP_NOT_FOUND);
+                }
+            }else{
+                return $this->errorResponse('El hash recibido es inválido', Response::HTTP_BAD_GATEWAY);
+            }
+            
+            return $this->successResponse([], Response::HTTP_OK);
 
         } catch(Exception $exception) {
             \Log::error('[getNotification]', ['error' => $exception]);

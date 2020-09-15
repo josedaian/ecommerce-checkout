@@ -81,17 +81,18 @@ class AdamsPayService{
 
     /**
      * @param mixed $post
-     * @param mixed $notifyHash
+     * @param mixed $header
      * 
      * @return boolean
      */
-    public function validateHeaderNotification($post, $notifyHash){
+    public function validateHeaderNotification($post, $header){
+        if(!isset($header['x-adams-notify-hash'][0])) {
+            return false;
+        }
         // localHash = provider_string + post_data + client_secret
         $localHash = md5(Provider::ADAMSPAY_STRING.json_encode($post).$this->clientSecret);
-        \Log::info($localHash);
-        \Log::info($notifyHash['x-adams-notify-hash'][0]);
         
-        return $localHash == $notifyHash;
+        return $localHash == $header['x-adams-notify-hash'][0];
     }
 
     /**

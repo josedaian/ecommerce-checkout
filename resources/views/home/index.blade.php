@@ -71,10 +71,23 @@
                 <div class="card-body">
                     <div class="row">
                         <div class="col-12">
-                            @if(isset($request['intent']))
-                                <div class="alert alert-success" role="alert">
-                                    <i class="fa fa-info" aria-hidden="true"></i> El pago para la referencia {{ $request['doc_id'] }} ha sido registrado
-                                </div>
+                            @if(!empty($transaction))
+                                @switch($transaction->status)
+                                    @case('pending')
+                                        <div class="alert alert-warning" role="alert">
+                                            <i class="fa fa-info" aria-hidden="true"></i> Atención! El pago para la referencia {{ $request['doc_id'] }} sigue pendiente
+                                        </div>
+                                        
+                                        @break
+                                    @case('paid')
+                                        <div class="alert alert-success" role="alert">
+                                            <i class="fa fa-info" aria-hidden="true"></i> El pago para la referencia {{ $request['doc_id'] }} ha sido registrado
+                                        </div>
+                                        
+                                        @break
+                                    @default
+                                        
+                                @endswitch
                             @endif
                         </div>
                     </div>
