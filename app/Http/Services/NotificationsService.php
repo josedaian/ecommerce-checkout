@@ -26,7 +26,8 @@ class NotificationsService{
     public function getNotification($request){
         try {
 
-            \Log::info($request);
+            \Log::info($request->header());
+            \Log::info($request->all());
             return 200;
             $adamspay = new AdamsPayService;
 
