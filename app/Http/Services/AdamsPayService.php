@@ -89,7 +89,7 @@ class AdamsPayService{
         // localHash = provider_string + post_data + client_secret
         $localHash = md5(Provider::ADAMSPAY_STRING.json_encode($post).$this->clientSecret);
         \Log::info($localHash);
-        \Log::info($notifyHash->{'x-adams-notify-hash'}[0]);
+        \Log::info($notifyHash['x-adams-notify-hash'][0]);
         
         return $localHash == $notifyHash;
     }
