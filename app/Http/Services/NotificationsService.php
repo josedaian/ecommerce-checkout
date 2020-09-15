@@ -25,12 +25,11 @@ class NotificationsService{
      */
     public function getNotification($request){
         try {
-
-            \Log::info($request->header());
-            \Log::info($request->all());
-            return 200;
+            $header = $request->header();
+            $postData = $request->all(); 
             $adamspay = new AdamsPayService;
-
+            $adamspay->validateHeaderNotification($postData, $header);
+            return 200;
             
             $data = [];
             $data['amount'] = [
@@ -43,7 +42,7 @@ class NotificationsService{
             return $response;
 
         } catch(Exception $exception) {
-            \Log::error('[registerDonation]', ['error' => $exception]);
+            \Log::error('[getNotification]', ['error' => $exception]);
             $this->errorResponse('Ha ocurrido un error interno', Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
