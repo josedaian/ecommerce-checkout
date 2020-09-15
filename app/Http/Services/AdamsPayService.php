@@ -86,7 +86,7 @@ class AdamsPayService{
      * @return boolean
      */
     public function validateHeaderNotification($post, $notifyHash){
-        $localHash = md5(Provider::ADAMSPAY_STRING.$post.$this->clientSecret);
+        $localHash = md5(Provider::ADAMSPAY_STRING.json_encode($post).$this->clientSecret);
         \Log::info($localHash);
         \Log::info($notifyHash);
         
