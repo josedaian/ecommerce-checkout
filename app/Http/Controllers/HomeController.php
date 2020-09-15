@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Http\Request;
+
 class HomeController extends Controller {
 
     /**
@@ -10,7 +12,10 @@ class HomeController extends Controller {
      * @method get
      * @return \Illuminate\Http\Response
      */
-    public function index(){
-        return view('home.index');
+    public function index(Request $request){
+        $request = $request->all();
+        return view('home.index', [
+            'request' => $request
+        ]);
     }
 }

@@ -21,6 +21,7 @@ class Provider extends Model
     protected $dates = ['deleted_at', 'created_at', 'updated_at'];
 
     public const ADAMSPAY = 1;
+    public const ADAMSPAY_STRING = 'adams';
 
     /**
      * Get WebServices Data

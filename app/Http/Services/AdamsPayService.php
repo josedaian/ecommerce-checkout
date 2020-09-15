@@ -16,6 +16,7 @@ class AdamsPayService{
 
     protected $url;
     protected $apiKey;
+    protected $clientSecret;
 
     public const DEFAULT_DURATION = 2; //days
     public const DEFAULT_CURRENCY = 'PYG';
@@ -28,6 +29,7 @@ class AdamsPayService{
 
         $this->url = $webservice->url;
         $this->apiKey = $webservice->webserviceCredential->api_key;
+        $this->clientSecret = $webservice->webserviceCredential->client_secret;
     }
 
     /**
@@ -75,6 +77,18 @@ class AdamsPayService{
 
         $response = $this->getRequest($requestParams['endpoint'], $requestParams['headers']);
         return $response;
+    }
+
+    /**
+     * @param mixed $post
+     * @param mixed $notifyHash
+     * 
+     * @return boolean
+     */
+    public function validateHeaderNotification($post, $notifyHash){
+        $localHash = md5(Provider::ADAMSPAY_STRING.$post.$this->clientSecret);
+        
+        return $localHash == $notifyHash;
     }
 
     /**

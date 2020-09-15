@@ -13,6 +13,11 @@
                 <div class="card-body">
                     <div class="row">
                         <div class="col-12">
+                            @if( !empty(Request::get('pay-debt')))
+                                <div class="alert alert-success" role="alert">
+                                    <i class="fa fa-info" aria-hidden="true"></i> El pago para la referencia {{ Request::get('doc_id') }} ha sido registrado
+                                </div>
+                            @endif
                             @if (isset($donation->message))
                                 <div class="alert alert-primary" role="alert">
                                     <i class="fa fa-info" aria-hidden="true"></i> {{ $donation->message }}
@@ -40,7 +45,7 @@
                         </div>
                         <div class="col-6">
                             <div class="col-12">
-                                <label> Estado: <span class="badge bg-primary text-light">{{ $donation->data->debt->payStatus->status }}</span></label>
+                                <label> Estado: <span class="badge bg-primary text-light">{{ (isset($donation->local->transaction)) ? $donation->local->transaction->status : $donation->data->debt->payStatus->status }}</span></label>
                             </div>
                             <div class="col-12">
                                 <label> Válido Desde: <span class="text-muted">@customDateFormat($donation->data->debt->validPeriod->start)</span></label>
@@ -64,6 +69,15 @@
             {!! Form::open(['route' => 'donations.store' , 'method' => 'POST', 'role' => 'form', 'id' => 'donation-form']) !!}
             <div class="card">
                 <div class="card-body">
+                    <div class="row">
+                        <div class="col-12">
+                            @if(isset($request['intent']))
+                                <div class="alert alert-success" role="alert">
+                                    <i class="fa fa-info" aria-hidden="true"></i> El pago para la referencia {{ $request['doc_id'] }} ha sido registrado
+                                </div>
+                            @endif
+                        </div>
+                    </div>
                     <div class="row">
                         <div class="col-4">
                             {!! Form::label('document', 'Nro. de Cédula de Identidad') !!}
